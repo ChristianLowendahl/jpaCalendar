@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Tue May 16 15:36:13 CEST 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-015c-1179-2d48-0000052025f8 
+on database directory /home/christian/NetBeansProjects/jpaCalendar/simpleDb with class loader sun.misc.Launcher$AppClassLoader@232204a1 
+Loaded from file:/home/christian/.m2/repository/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/home/christian/NetBeansProjects/jpaCalendar
+os.name=Linux
+os.arch=amd64
+os.version=4.4.0-75-generic
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
