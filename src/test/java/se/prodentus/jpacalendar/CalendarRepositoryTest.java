@@ -1,5 +1,8 @@
 package se.prodentus.jpacalendar;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -9,6 +12,8 @@ import javax.persistence.Query;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+import java.util.Date;
+import org.junit.After;
 
 public class CalendarRepositoryTest {
 
@@ -41,17 +46,6 @@ public class CalendarRepositoryTest {
     }
 
     @Test
-    public void findAllShouldReturnTwoEvents() {
-	EntityTransaction entityTransaction = entityManager.getTransaction();
-	entityTransaction.begin();
-	calendarRepository.addCalendarEvent(new CalendarEvent());
-	calendarRepository.addCalendarEvent(new CalendarEvent());
-	entityTransaction.commit();
-	List<CalendarEvent> calenderEvents = calendarRepository.findAll();
-	assertEquals(2, calenderEvents.size());
-    }
-
-    @Test
     public void findAllShouldReturnOneEvent() {
 	EntityTransaction entityTransaction = entityManager.getTransaction();
 	entityTransaction.begin();
@@ -62,8 +56,40 @@ public class CalendarRepositoryTest {
     }
     
     @Test
-    public void addEventShouldPersistProperties() {
-	CalendarEvent calendarEvent = new CalendarEvent();
+    public void findAllShouldReturnTwoEvents() {
+	EntityTransaction entityTransaction = entityManager.getTransaction();
+	entityTransaction.begin();
+	calendarRepository.addCalendarEvent(new CalendarEvent());
+	calendarRepository.addCalendarEvent(new CalendarEvent());
+	entityTransaction.commit();
+	List<CalendarEvent> calenderEvents = calendarRepository.findAll();
+	assertEquals(2, calenderEvents.size());
     }
-
+    
+    @Test
+    public void addEventShouldPersistProperties() {
+	//Given
+	Date startDateTime = new Date();
+	Calendar calendar = Calendar.getInstance();
+	calendar.add(Calendar.HOUR, 1);
+	Date endDateTime = calendar.getTime();
+	String description = "descr";
+	CalendarEvent calendarEvent = new CalendarEvent();
+	calendarEvent.setStartDateTime(startDateTime);
+	calendarEvent.setEndDateTime(endDateTime);
+	calendarEvent.setDescription(description);
+	
+	//When
+	EntityTransaction entityTransaction = entityManager.getTransaction();
+	entityTransaction.begin();
+	calendarRepository.addCalendarEvent(calendarEvent);
+	entityTransaction.commit();
+	
+	//Then
+	CalendarEvent createdCalendarEvent = calendarRepository.findAll().get(0);
+	assertEquals(startDateTime, createdCalendarEvent.getStartDateTime());
+	assertEquals(endDateTime, createdCalendarEvent.getEndDateTime());
+	assertEquals(description, calendarEvent.getDescription());
+    }
+   
 }
