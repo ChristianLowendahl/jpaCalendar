@@ -69,15 +69,17 @@ public class CalendarRepositoryTest {
     @Test
     public void addEventShouldPersistProperties() {
 	//Given
+	CalendarEvent calendarEvent = new CalendarEvent();
 	Date startDateTime = new Date();
+	calendarEvent.setStartDateTime(startDateTime);
 	Calendar calendar = Calendar.getInstance();
 	calendar.add(Calendar.HOUR, 1);
 	Date endDateTime = calendar.getTime();
-	String description = "descr";
-	CalendarEvent calendarEvent = new CalendarEvent();
-	calendarEvent.setStartDateTime(startDateTime);
 	calendarEvent.setEndDateTime(endDateTime);
+	String description = "This is a description of the calendar event.";
 	calendarEvent.setDescription(description);
+	EventCategory eventCategory = EventCategory.EDUCATION;
+	calendarEvent.setEventCategory(eventCategory);
 	
 	//When
 	EntityTransaction entityTransaction = entityManager.getTransaction();
@@ -89,7 +91,8 @@ public class CalendarRepositoryTest {
 	CalendarEvent createdCalendarEvent = calendarRepository.findAll().get(0);
 	assertEquals(startDateTime, createdCalendarEvent.getStartDateTime());
 	assertEquals(endDateTime, createdCalendarEvent.getEndDateTime());
-	assertEquals(description, calendarEvent.getDescription());
+	assertEquals(description, createdCalendarEvent.getDescription());
+	assertEquals(eventCategory, createdCalendarEvent.getEventCategory());
     }
    
 }

@@ -27,7 +27,11 @@ class CalendarEvent implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDateTime;
     
+    @Column(name="description")
     private String description;
+    
+    @Column(name="event_category")
+    private EventCategory eventCategory;
 
     public long getId() {
         return id;
@@ -61,6 +65,12 @@ class CalendarEvent implements Serializable {
 	this.endDateTime = endDateTime;
     }
 
-    
+    public EventCategory getEventCategory() {
+	return eventCategory;
+    }
 
+    public void setEventCategory(EventCategory eventCategory) {
+	this.eventCategory = eventCategory;
+    }
+ 
 }
