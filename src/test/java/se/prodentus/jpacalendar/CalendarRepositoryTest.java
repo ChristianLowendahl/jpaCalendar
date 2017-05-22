@@ -222,5 +222,12 @@ public class CalendarRepositoryTest {
 	List<CalendarEvent> calenderEvents = calendarRepository.findEventsInIntervalByCategory(searchDateTime, searchDateTime, searchEventCategory);
 	assertEquals(0, calenderEvents.size());
     }
+    
+    @Test
+    public void findEventsInIntervalByCategoryShouldReturnOneElement() {
+        // Given
+        // When
+        // Then
+    }
    
 }
