@@ -32,6 +32,21 @@ class CalendarEvent implements Serializable {
     
     @Column(name="event_category")
     private EventCategory eventCategory;
+    
+    public CalendarEvent() {
+    }
+    
+    public CalendarEvent(Date startDateTime, Date endDateTime) {
+	this.startDateTime = startDateTime;
+	this.endDateTime = endDateTime;
+    }
+    
+    public CalendarEvent(Date startDateTime, Date endDateTime, String description, EventCategory eventCategory) {
+	this.startDateTime = startDateTime;
+	this.endDateTime = endDateTime;
+	this.description = description;
+	this.eventCategory = eventCategory;
+    }
 
     public long getId() {
         return id;
