@@ -15,38 +15,48 @@ public class CalendarRepository {
         this.entityManager = entityManager;
     }
     
-    List<CalendarEvent> findAll() {
+    public List<CalendarEvent> findAll() {
         Query query = entityManager.createQuery("SELECT c FROM CalendarEvent c");
         List<CalendarEvent> calenderEvents = query.getResultList();
         return calenderEvents;
     }
 
-    void addCalendarEvent(CalendarEvent calendarEvent) {
+    public void addCalendarEvent(CalendarEvent calendarEvent) {
         entityManager.persist(calendarEvent);
     }
 
-    List<CalendarEvent> findEventsInInterval(Date startSearchDateTime, Date endSearchDateTime) {
+    public List<CalendarEvent> findEventsInInterval(Date startDateTime, Date endDateTime) {
 	String queryText = "SELECT c FROM CalendarEvent c"
-		+ " WHERE (c.startDateTime BETWEEN :startSearchDateTime AND :endSearchDateTime)"
-		+ " OR (c.endDateTime BETWEEN :startSearchDateTime AND :endSearchDateTime)";
+		+ " WHERE c.startDateTime BETWEEN :startDateTime AND :endDateTime"
+		+ " OR c.endDateTime BETWEEN :startDateTime AND :endDateTime";
 	Query query = entityManager.createQuery(queryText);
-	query.setParameter("startSearchDateTime", startSearchDateTime, TemporalType.TIMESTAMP);
-	query.setParameter("endSearchDateTime", endSearchDateTime, TemporalType.TIMESTAMP);
+	// Could define TemporalType for parameter if needed for the query.
+	query.setParameter("startDateTime", startDateTime);
+	query.setParameter("endDateTime", endDateTime);
         List<CalendarEvent> calenderEvents = query.getResultList();
         return calenderEvents;
     }
     
-    List<CalendarEvent> findEventsByCategory(EventCategory searchEventCategory) {
+    public List<CalendarEvent> findEventsByCategory(EventCategory eventCategory) {
 	String queryText = "SELECT c FROM CalendarEvent c"
-		+ " WHERE c.eventCategory = :searchEventCategory";
+		+ " WHERE c.eventCategory = :eventCategory";
 	Query query = entityManager.createQuery(queryText);
-	query.setParameter("searchEventCategory", searchEventCategory);
+	query.setParameter("eventCategory", eventCategory);
 	List<CalendarEvent> calenderEvents = query.getResultList();
         return calenderEvents;
     }
 
-    List<CalendarEvent> findEventsInIntervalByCategory(Date searchDateTime, Date searchDateTime0, EventCategory searchEventCategory) {
-	return new ArrayList<>();
+    public List<CalendarEvent> findEventsInIntervalByCategory(Date startDateTime, Date endDateTime, EventCategory eventCategory) {
+	String queryText = "SELECT c FROM CalendarEvent c"
+		+ " WHERE (c.startDateTime BETWEEN :startDateTime AND :endDateTime"
+		+ " OR c.endDateTime BETWEEN :startDateTime AND :endDateTime)"
+		+ " AND c.eventCategory = :eventCategory";
+	Query query = entityManager.createQuery(queryText);
+	query.setParameter("startDateTime", startDateTime);
+	query.setParameter("endDateTime", endDateTime);
+	query.setParameter("eventCategory", eventCategory);
+        List<CalendarEvent> calenderEvents = query.getResultList();
+        return calenderEvents;
     }
 
 }
